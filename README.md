@@ -1,6 +1,6 @@
 # Click-Signal
 ![GitHub Release](https://img.shields.io/github/v/release/Raoootokun/Click-Signal)  
-ボタン・レバー・感圧板・看板などの**操作したプレイヤーに対して**正確にコマンドを実行する**拡張アドオンです。  
+ボタン・レバー・感圧板・看板などの**操作したプレイヤーに対して**正確にコマンドを実行する拡張アドオンです。  
 対応バージョン: `v1.21.13x`  
 
 # 機能概要
