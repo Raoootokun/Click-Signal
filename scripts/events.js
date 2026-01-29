@@ -10,11 +10,11 @@ world.afterEvents.buttonPush.subscribe(ev => {
 });
 
 world.afterEvents.leverAction.subscribe(ev => {
-    const { source, block, dimension, isPowered } = ev;
+    const { player, block, dimension, isPowered } = ev;
 
-    if(!Util.isPlyaer(source))return;
-    if(isPowered)return;
-    ClickSignal.run(source, dimension, block.location);
+    if(!Util.isPlyaer(player))return;
+    if(!isPowered)return;
+    ClickSignal.run(player, dimension, block.location);
 });
 
 world.afterEvents.pressurePlatePush.subscribe(ev => {
@@ -30,5 +30,17 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
     if(!isFirstEvent)return;
     if(!block.getComponent("sign"))return;
 
-    ClickSignal.run(player, player.dimension, block.location);
+    if(Util.isSurvival(player) || Util.isAdventure(player)) {
+        ev.cancel = true;
+        system.run(() => { ClickSignal.run(player, player.dimension, block.location); });
+        return;
+    };
+
+    if(Util.isCreative(player)) {
+        if(player.isSneaking)return;
+
+        ev.cancel = true;
+        system.run(() => { ClickSignal.run(player, player.dimension, block.location); });
+    };
+
 });

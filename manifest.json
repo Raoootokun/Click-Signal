@@ -1,9 +1,9 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Click Signal [ver0.1.0]",
+    "name": "Click Signal [ver1.0.0]",
     "description": "",
-    "version": [ 0, 1, 0 ],
+    "version": [ 1, 0, 0 ],
     "uuid": "e6d5364d-e6d0-0bf0-548b-5c07b7700e19",
     "min_engine_version": [ 1, 21, 130 ]
   },

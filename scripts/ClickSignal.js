@@ -14,7 +14,7 @@ export class ClickSignal {
      * @param {string} command 
      */
     static bind(dimensionId, pos, command) {
-        if(ClickSignal.dimensionIds.includes(dimensionId))return -1;
+        if(!ClickSignal.dimensionIds.includes(dimensionId))return -1;
 
         pos = Vector.floor(pos);
 
@@ -28,7 +28,7 @@ export class ClickSignal {
      * @param {{ x:number, y:number, z:number, }} pos 
      */
     static unbind(dimensionId, pos) {
-        if(ClickSignal.dimensionIds.includes(dimensionId))return -1;
+        if(!ClickSignal.dimensionIds.includes(dimensionId))return -1;
         pos = Vector.floor(pos);
 
         if(!worldDB.has(`${dimensionId}.${pos.x}.${pos.y}.${pos.z}`))return -2;
@@ -41,7 +41,7 @@ export class ClickSignal {
      * @param {string} dimensionId 
      */
     static unbindAll(dimensionId) {
-        if(ClickSignal.dimensionIds.includes(dimensionId))return -1;
+        if(!ClickSignal.dimensionIds.includes(dimensionId))return -1;
 
         const keys = worldDB.keys().filter(key => key.startsWith(dimensionId));
         if(keys.length == 0)return -2;
@@ -56,7 +56,7 @@ export class ClickSignal {
      * @param {string} dimensionId 
      */
     static list(dimensionId = undefined) {
-        if(ClickSignal.dimensionIds.includes(dimensionId) && dimensionId != undefined)return -1;
+        if(!ClickSignal.dimensionIds.includes(dimensionId) && dimensionId != undefined)return -1;
 
         let keys = worldDB.keys();
         if(dimensionId)keys.filter(key => key.startsWith(dimensionId));
@@ -70,10 +70,11 @@ export class ClickSignal {
             const pos = { x:keyArr[1]*1, y:keyArr[2]*1, z:keyArr[3]*1 };
             const command = worldDB.get(key);
 
-            arr.push(`${dimensionId_}: (${pos.x}, ${pos.y}, ${pos.z}), ${command}§r`);
+            arr.push(`§f- ${dimensionId_}(§7${pos.x}§f, §7${pos.y}§f, §7${pos.z}§f): ${command}§r`);
         };
 
-        return arr.join(`\n`);
+        arr.join(`\n`);
+        return arr;
     }
 
 
@@ -85,14 +86,14 @@ export class ClickSignal {
      * @param {{ x:number, y:number, z:number, }} pos 
      */
     static run(player, dimension, pos) {
-        const key = `${dimension.id}.${pos.x}.${pos.y}.${pos.z}`;
+        const key = `${dimension.id.replace(`minecraft:`, ``)}.${pos.x}.${pos.y}.${pos.z}`;
         if(!worldDB.has(key))return;
 
         const command = worldDB.get(key);
         try{
             player.runCommand(command);
         }catch(e) {
-            world.sendMessage(`§c[Click Signal][Error]: コマンド実行失敗\nエラー: ${e?.message ?? e}\nコマンド: ${command}\n座標: ${pos.x}, ${pos.y}, ${pos.z}`);
+            player.sendMessage(`§c[Click Signal][Error]: コマンド実行失敗\nエラー: ${e?.message ?? e}コマンド: ${command}\n座標: ${pos.x}, ${pos.y}, ${pos.z}`);
         };
     }
 

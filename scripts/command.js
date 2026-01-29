@@ -13,7 +13,7 @@ const COMMAND_LIST = [
             mandatoryParameters: [
                 { type: CustomCommandParamType.Enum, name: "cs:dimensionId" },
                 { type: CustomCommandParamType.Location, name: "location" },
-                { type: CustomCommandParamType.Integer, name: "command" },
+                { type: CustomCommandParamType.String, name: "command" },
             ]
         },
         alias: [  ],
@@ -33,7 +33,7 @@ const COMMAND_LIST = [
             };
             
             return {
-                message: `${dimensionId}(${location.x}, ${location.y}, ${location.z}) に ${command} §rを登録しました`,
+                message: `§f${dimensionId}(§7${location.x}§f, §7${location.y}§f, §7${location.z}§f) に ${command} §rを登録しました`,
                 status: CustomCommandStatus.Success,
             };
         }
@@ -65,7 +65,7 @@ const COMMAND_LIST = [
             };
             
             return {
-                message: `${dimensionId}(${location.x}, ${location.y}, ${location.z}) の解除を解除しました`,
+                message: `§f${dimensionId}(§7${location.x}§f, §7${location.y}§f, §7${location.z}§f) の登録を解除しました`,
                 status: CustomCommandStatus.Success,
             };
         }
@@ -95,7 +95,7 @@ const COMMAND_LIST = [
             };
             
             return {
-                message: `${dimensionId} のすべての登録を解除しました(${res} 件)`,
+                message: `${dimensionId} のすべての登録を解除しました(${res}件)`,
                 status: CustomCommandStatus.Success,
             };
         }
@@ -114,7 +114,7 @@ const COMMAND_LIST = [
         func: function(origin, ...args) {
             const dimensionId = args[0];
 
-            const res = ClickSignal.unbindAll(dimensionId);
+            const res = ClickSignal.list(dimensionId);
             if(res == -1)return {
                 message: `§c"${dimensionId}" ではディメンションは見つかりませんでした`,
                 status: CustomCommandStatus.Failure,
@@ -125,7 +125,7 @@ const COMMAND_LIST = [
             };
             
             return {
-                message: `--- 登録情報---\n${res}\n---------`,
+                message: `--- 登録情報---\n${res}\n------------`,
                 status: CustomCommandStatus.Success,
             };
         }
